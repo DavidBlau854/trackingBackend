@@ -13,32 +13,12 @@ const server = http.createServer(app);
 app.use(logger("dev"));
 app.use(bodyParser.json());
 
-app.get("/", (req, res) => {
-  res.send("hello woeffrls");
-});
-
-app.get("/docs", (req, res) => {
-  const ans = fn.getDocs();
-  res.send(ans);
-});
-
-app.post("/doc", (req, res) => {
-  fn.postDoc(req.body);
-  res.sendStatus(200);
-});
-
-app.get("/doc/:id", (req, res) => {
-  const ans = fn.getDocId(req.params.id);
-  res.send(ans);
-});
-app.put("/doc/:id", (req, res) => {
-  const ans = fn.putDoc(req.params.id, req.body);
-  res.sendStatus(200);
-});
-app.delete("/doc/:id", (req, res) => {
-  const ans = fn.deleteDoc(req.params.id);
-  res.sendStatus(200);
-});
+app.get("/", fn.welcome);
+app.get("/docs", fn.getDocs);
+app.post("/doc", fn.postDoc);
+app.get("/doc/:id", fn.getDocId);
+app.put("/doc/:id", fn.putDoc);
+app.delete("/doc/:id", fn.deleteDoc);
 
 if (require.main == module) {
   boot();

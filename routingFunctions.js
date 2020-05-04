@@ -1,25 +1,34 @@
-const db = [];
+const logic = require("./routingLogic");
 
-function getDocs() {
-  return db;
-}
+const welcome = (req, res) => {
+  res.send("hello woeffrls");
+};
 
-function getDocId(id) {
-  return db.find((doc) => doc.id == id);
-}
+const getDocs = (req, res) => {
+  const ans = logic.getDocs();
+  res.send(ans);
+};
 
-function postDoc(doc) {
-  db.push(doc);
-}
-function putDoc(id, newDoc) {
-  const i = db.findIndex((doc) => doc.id == id);
-  db[i] = newDoc;
-}
-function deleteDoc(id) {
-  const i = db.findIndex((doc) => doc.id == id);
-  db.splice(i,1)
-}
+const postDoc = (req, res) => {
+  logic.postDoc(req.body);
+  res.sendStatus(200);
+};
+
+const getDocId = (req, res) => {
+  const ans = logic.getDocId(req.params.id);
+  res.send(ans);
+};
+const putDoc = (req, res) => {
+  const ans = logic.putDoc(req.params.id, req.body);
+  res.sendStatus(200);
+};
+const deleteDoc = (req, res) => {
+  const ans = logic.deleteDoc(req.params.id);
+  res.sendStatus(200);
+};
+
 module.exports = {
+  welcome,
   getDocs,
   getDocId,
   postDoc,

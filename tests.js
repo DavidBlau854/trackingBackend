@@ -8,7 +8,6 @@ const exampleObj = { id: 1, value: 1 };
 describe(`server`, () => {
   before(async () => {
     boot();
-    await superagent.post(`${URL}/doc`).send(exampleObj);
   });
 
   describe(`testing routes `, () => {
@@ -17,6 +16,7 @@ describe(`server`, () => {
       expect(ans.body).to.be.an(`array`);
     });
     it(`should get the required doc when GET /doc/:id is called `, async () => {
+      await superagent.post(`${URL}/doc`).send(exampleObj);
       const ans = await superagent.get(`${URL}/doc/1`);
       expect(ans.body).to.be.deep.equal(exampleObj);
     });
@@ -41,12 +41,22 @@ describe(`server`, () => {
 
     it("should delete the required doc when DELETE /doc/:id is called ", async () => {
       const prevLen = await getNumOfDocs();
-      await superagent.delete(`${URL}/doc/1`)
+      await superagent.delete(`${URL}/doc/1`);
       const curLen = await getNumOfDocs();
       expect(curLen).to.equal(prevLen - 1);
     });
   });
+  describe("testing DB", () => {
+    it("should persist data beyond server sessions ", async () => {
+      const exampleObj = { id: 3, value: 3 };
+      await superagent.post(`${URL}/doc`).send(exampleObj);
+      shutdown();
+      boot();
 
+      const ans = await superagent.get(`${URL}/doc/3`);
+      expect(ans.body).to.be.deep.equal(exampleObj);
+    });
+  });
   after(() => shutdown());
 });
 const getNumOfDocs = async () => {
