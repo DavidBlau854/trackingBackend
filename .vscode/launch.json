@@ -9,7 +9,7 @@
       "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["--colors", "${workspaceFolder}\\tests"],
+      "args": ["--colors", "${workspaceFolder}\\test\\tests"],
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": ["<node_internals>/**"]
     }

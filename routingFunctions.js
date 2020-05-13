@@ -27,6 +27,13 @@ const deleteDoc = (req, res) => {
   res.sendStatus(200);
 };
 
+const postEvent = (req, res) => {
+  const id = req.params.id;
+  const event = req.body;
+  logic.postEvent(id, event);
+  const ans = logic.getDocId(req.params.id);
+  res.send(ans);
+};
 module.exports = {
   welcome,
   getDocs,
@@ -34,4 +41,5 @@ module.exports = {
   postDoc,
   putDoc,
   deleteDoc,
+  postEvent,
 };

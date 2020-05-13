@@ -45,16 +45,18 @@ describe(`server`, () => {
       const curLen = await getNumOfDocs();
       expect(curLen).to.equal(prevLen - 1);
     });
-  });
-  describe("testing DB", () => {
-    it("should persist data beyond server sessions ", async () => {
-      const exampleObj = { id: 3, value: 3 };
-      await superagent.post(`${URL}/doc`).send(exampleObj);
-      shutdown();
-      boot();
-
-      const ans = await superagent.get(`${URL}/doc/3`);
-      expect(ans.body).to.be.deep.equal(exampleObj);
+    it("should add event to eventsArray when POST /doc/:id/event ", async () => {
+      //Arrange
+      const docId = 12;
+      await superagent.post(`${URL}/doc`).send({ id: docId, eventsArray: [] });
+      const postedDoc = await superagent.get(`${URL}/doc/${docId}`);
+      const prevLen = postedDoc.body.eventsArray.length;
+      //Act
+      await superagent.post(`${URL}/doc/${docId}/event`).send(new Date());
+      //Assert
+      const postedDoc2 = await superagent.get(`${URL}/doc/${docId}`);
+      const postLen = postedDoc2.body.eventsArray.length;
+      expect(prevLen).to.equal(postLen - 1);
     });
   });
   after(() => shutdown());

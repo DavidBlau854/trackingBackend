@@ -1,4 +1,6 @@
-const db = [];
+const dbExmaple = require("./exampleDB");
+
+const db = dbExmaple;
 
 function getDocs() {
   return db;
@@ -17,7 +19,11 @@ function putDoc(id, newDoc) {
 }
 function deleteDoc(id) {
   const i = db.findIndex((doc) => doc.id == id);
-  db.splice(i,1)
+  db.splice(i, 1);
+}
+function postEvent(id, event) {
+  const i = db.findIndex((doc) => doc.id == id);
+  db[i].eventsArray.push(event);
 }
 module.exports = {
   getDocs,
@@ -25,4 +31,5 @@ module.exports = {
   postDoc,
   putDoc,
   deleteDoc,
+  postEvent,
 };

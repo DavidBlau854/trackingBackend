@@ -19,6 +19,7 @@ app.post("/doc", fn.postDoc);
 app.get("/doc/:id", fn.getDocId);
 app.put("/doc/:id", fn.putDoc);
 app.delete("/doc/:id", fn.deleteDoc);
+app.post("/doc/:id/event", fn.postEvent);
 
 if (require.main == module) {
   boot();
