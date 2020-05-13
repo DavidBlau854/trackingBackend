@@ -1,7 +1,7 @@
 const { expect } = require(`chai`);
 const superagent = require(`superagent`);
 
-const { boot, shutdown, port } = require(`./index`);
+const { boot, shutdown, port } = require(`../index`);
 const URL = `http://localhost:5000`;
 const exampleObj = { id: 1, value: 1 };
 
